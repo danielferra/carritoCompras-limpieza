@@ -1,68 +1,60 @@
-const productos = [
-    {nombre: "suavizante", precio: 50},
-    {nombre: "jabon liquido", precio: 80},
-    {nombre: "jabon en polvo", precio: 150},
-    {nombre: "detergente", precio: 180},
-    {nombre: "limpiavidrios", precio: 90},
-];
+const Clickbutton = document.querySelectorAll('.button');
+const tbody = document.querySelector('.tbody');
 let carrito = [];
 
-let seleccion = prompt("¿Desea comprar algun producto si o no?");
+Clickbutton.forEach(btn =>{
+    btn.addEventListener('click', addToCarritoItem)
+});
 
-while(seleccion != "si" && seleccion != "no"){
-    alert("ingrese si o no");
-    seleccion = prompt("¿Desea comprar algo si o no?")
-}
+function addToCarritoItem(e){
+    const button = e.target;
+    const item = button.closest('.card');
+    const itemTitle = item.querySelector('.card-title').textContent;
+    const itemPrice = item.querySelector('.precio').textContent;
+    const itemImg = item.querySelector('.card-img-top').src;
 
-if(seleccion == "si"){
-    alert("Estos son nuestros productos");
-    let todoslosProductos = productos.map((producto) => producto.nombre + " " + 
-    producto.precio + "$");
-    alert(todoslosProductos.join(" - "));
-}else if(seleccion == "no"){
-    alert("Gracias por visitarnos!");
-}
-while(seleccion != "no"){
-    let producto = prompt("Agrega un producto a tu carrito!");
-    let precio = 0;
-    if(producto == "suavizante" || producto == "jabon liquido" || producto == "jabon en polvo" || producto == "detergente" || producto == "limpiavidrios"){
-      switch(producto){
-        case "suavizante":
-            precio = 50;
-            break;
-            case "jabon liquido":
-            precio = 80;
-            break;
-            case "jabon en polvo":
-            precio = 150;
-            break;
-            case "detergente":
-            precio = 180;
-            break;
-            case "limpiavidrios":
-            precio = 90;
-            break;
-            default:
-            break;
-      }  
-    let unidades = parseInt(prompt("¿Cuantas unidades desea llevar?"));
-    
-    carrito.push({producto, unidades, precio});
-    console.log(carrito);
-    }else{
-        alert("No disponemos de ese producto");
+    const newItem = {
+        title: itemTitle,
+        precio: itemPrice,
+        img: itemImg,
+        cantidad: 1
     }
-    seleccion = prompt("¿Desea seguir comprando?");
-
-    while(seleccion === "no"){
-        alert("Muchas gracias por su compra!")
-        carrito.forEach((carritoFinal) => {
-         console.log(`producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades},
-         total a pagar por producto ${carritoFinal.unidades * carritoFinal.precio}`);
-        });
-    break;    
-    }
+    addItemCarrito(newItem);
 }
 
-const total = carrito.reduce((acc, el) => acc + el.precio * el.unidades, 0);
-console.log(`El total a pagar por su compra es: ${total}`);
+ function addItemCarrito(newItem){
+    const InputElemento = tbody.getElementsByClassName('input__elemento');
+    for(let i=0; i < carrito.length; i++){
+        if(carrito[i].title.trim() === newItem.title.trim()){
+            carrito[i].cantidad ++;
+            const inputValue = InputElemento[i];
+            inputValue.value++;
+            return null;
+        }
+    }
+   carrito.push(newItem);
+   renderCarrito();
+}
+
+function renderCarrito(){
+    tbody.innerHTML = '';
+    carrito.map(item =>{
+        const tr = document.createElement('tr');
+        tr.classList.add('itemCarrito');
+        const Content = `
+        
+        <th scope="row">1</th>
+                    <td class="table__productos">
+                        <img src=${item.img} alt="image">
+                        <h6 class="title">${item.title}</h6>
+                    </td>
+                    <td class="table__precio"><p>${item.precio}</p></td>
+                    <td class="table_cantidad">
+                        <input type="number" min="1" value=${item.cantidad} class="input__elemento">
+                        <button class="delete btn btn-danget">x</button>
+                    </td>
+        `
+    tr.innerHTML = Content;
+    tbody.append(tr);    
+    })
+}
