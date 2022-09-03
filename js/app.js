@@ -29,6 +29,7 @@ function addToCarritoItem(e){
             carrito[i].cantidad ++;
             const inputValue = InputElemento[i];
             inputValue.value++;
+            CarritoTotal();
             return null;
         }
     }
@@ -55,6 +56,36 @@ function renderCarrito(){
                     </td>
         `
     tr.innerHTML = Content;
-    tbody.append(tr);    
+    tbody.append(tr); 
+    tr.querySelector(".delete").addEventListener('click', removeItemCarrito);
+    
     })
+    CarritoTotal();
 }
+
+function CarritoTotal(){
+    let Total = 0;
+    const itemCartTotal = document.querySelector('.itemCartTotal');
+    carrito.forEach((item) =>{
+        const precio = Number(item.precio.replace("$", ''));
+        Total = Total + precio * item.cantidad;
+    });
+
+    itemCartTotal.innerHTML = `Total $${Total}`;
+}
+
+function removeItemCarrito(e){
+   const buttonDelete = e.target;
+   const tr = buttonDelete.closest(".itemCarrito");
+   const title = tr.querySelector('.title').textContent;
+   for(let i=0; i<carrito.length; i++){
+    if(carrito[i].title.trim() === title.trim()){
+        carrito.splice(i, 1);
+        
+    }
+   }
+   tr.remove()
+   CarritoTotal();
+}
+
+
