@@ -72,6 +72,7 @@ function CarritoTotal(){
     });
 
     itemCartTotal.innerHTML = `Total $${Total}`;
+    addLocalStorage();
 }
 
 function removeItemCarrito(e){
@@ -89,3 +90,14 @@ function removeItemCarrito(e){
 }
 
 
+function addLocalStorage(){
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+
+window.onload = function(){
+    const storage = JSON.parse(localStorage.getItem('carrito'));
+    if(storage){
+        carrito = storage;
+        renderCarrito();
+    }
+}
