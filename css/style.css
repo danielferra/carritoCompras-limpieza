@@ -1,4 +1,4 @@
-header{
+header, .alert{
     z-index: 100;
 }
 .description{
@@ -33,3 +33,7 @@ header{
     margin-right: 30px;
     margin-bottom: 20px;
 } 
+
+.hide, .remove{
+    display: none;
+}
