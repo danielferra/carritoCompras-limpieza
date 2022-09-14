@@ -64,7 +64,7 @@ function renderCarrito(){
     tr.innerHTML = Content;
     tbody.append(tr); 
     tr.querySelector(".delete").addEventListener('click', removeItemCarrito);
-    tr.querySelector(".input__elemento").addEventListener('change, sumaCantidad')
+    
     })
     CarritoTotal();
 }
@@ -91,19 +91,7 @@ function removeItemCarrito(e){
         
     }
    }
- function sumaCantidad(e){
-    const sumaInput = e.target
-    const tr = sumaInput.closest(".itemCarrito")
-    const title = tr.querySelector('.title').textContent
-    carrito.forEach(item =>{
-        if(item.title.trim() === title){
-            sumaInput.value < 1 ? (sumaInput.value = 1) : sumaInput.value;
-            item.cantidad = sumaInput.value;
-            CarritoTotal();
-        }
-    })
-    console.log(carrito);
- }
+
    
 const alert = document.querySelector('.remove');
     setTimeout(function(){
