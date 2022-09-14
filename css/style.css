@@ -1,3 +1,10 @@
+.rojo{
+    color: red;
+}
+.content-class{
+    padding: 0 20px;
+}
+
 header, .alert{
     z-index: 100;
 }
